@@ -8,6 +8,12 @@ function App() {
     setText(value)
   }
 
+  const wordCount = (str) => {
+    const wordsArr = str.trim().split(" ")
+    return wordsArr.filter(word => word !== "").length
+  }
+  // console.log(wordCount(text))
+
   return (
     <div>
       <h1>Test your Typing Speed!</h1>
@@ -18,8 +24,8 @@ function App() {
         placeholder="start typing here!"
       />
       <h4>Time Remaining: </h4>
-      <button>Start!</button>
-      <h1>Word Count: </h1>
+      <button onClick={() => wordCount(text)}>Start!</button>
+      <h1>Word Count: { }</h1>
 
     </div>
   );
