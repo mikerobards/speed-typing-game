@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react"
 
 function App() {
+  const STARTING_TIME = 5
   const [text, setText] = useState("")
-  const [timeRemaining, setTimeRemaining] = useState(15)
+  const [timeRemaining, setTimeRemaining] = useState(STARTING_TIME)
   const [isRunning, setIsRunning] = useState(false)
+  const [wordCount, setWordCount] = useState(0)
 
   const handleChange = (e) => {
     const { value } = e.target
     setText(value)
   }
 
-  const wordCount = (str) => {
+  const startGame = () => {
+    setIsRunning(true)
+    setTimeRemaining(STARTING_TIME)
+    setText("")
+    setWordCount(0)
+  }
+
+  const endGame = () => {
+    setIsRunning(false)
+    setWordCount(wordCounter(text))
+  }
+
+  const wordCounter = (str) => {
     const wordsArr = str.trim().split(" ")
     return wordsArr.filter(word => word !== "").length
   }
@@ -20,8 +34,8 @@ function App() {
       setTimeout(() => {
         setTimeRemaining(time => time - 1)
       }, 1000)
-    } else {
-      setIsRunning(false)
+    } else if (timeRemaining === 0) {
+      endGame()
     }
   }, [timeRemaining, isRunning])
 
@@ -34,12 +48,11 @@ function App() {
         value={text}
         onChange={handleChange}
         placeholder="start typing here!"
+        disabled={!isRunning}
       />
       <h4>Time Remaining: {timeRemaining}</h4>
-      <button onClick={() => setIsRunning(true)}>Start!</button>
-      <h1>Word Count: {!isRunning && wordCount(text)}</h1>
-      <p>setIsRunning: {isRunning === true ? <span>True</span> : <span>False</span>}</p>
-
+      <button onClick={startGame} disabled={isRunning}>Start!</button>
+      <h1>Word Count: {wordCount}</h1>
     </div>
   );
 }
