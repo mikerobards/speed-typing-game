@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react"
 
 function App() {
   const [text, setText] = useState("")
-  const [timeRemaining, setTimeRemaining] = useState(5)
+  const [timeRemaining, setTimeRemaining] = useState(15)
+  const [isRunning, setIsRunning] = useState(false)
 
   const handleChange = (e) => {
     const { value } = e.target
@@ -15,12 +16,15 @@ function App() {
   }
 
   useEffect(() => {
-    if (timeRemaining > 0) {
+    if (timeRemaining > 0 && isRunning) {
       setTimeout(() => {
         setTimeRemaining(time => time - 1)
       }, 1000)
+    } else {
+      setIsRunning(false)
     }
-  }, [timeRemaining])
+  }, [timeRemaining, isRunning])
+
 
   return (
     <div>
@@ -32,8 +36,9 @@ function App() {
         placeholder="start typing here!"
       />
       <h4>Time Remaining: {timeRemaining}</h4>
-      <button onClick={() => wordCount(text)}>Start!</button>
-      <h1>Word Count: { }</h1>
+      <button onClick={() => setIsRunning(true)}>Start!</button>
+      <h1>Word Count: {!isRunning && wordCount(text)}</h1>
+      <p>setIsRunning: {isRunning === true ? <span>True</span> : <span>False</span>}</p>
 
     </div>
   );
