@@ -1,12 +1,20 @@
+import React, { useState } from "react"
+
 function App() {
+  const [text, setText] = useState("")
+
+  const handleChange = (e) => {
+    const { value } = e.target
+    setText(value)
+  }
 
   return (
     <div>
       <h1>Test your Typing Speed!</h1>
       <textarea
         name="textarea"
-        value=""
-        onChange={() => { }}
+        value={text}
+        onChange={handleChange}
         placeholder="start typing here!"
       />
       <h4>Time Remaining: </h4>
